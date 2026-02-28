@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-pdfvector-instance-server",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n community node for PDFVector - Parse, ask questions, and extract structured data from documents",
 	"license": "MIT",
 	"homepage": "https://github.com/phuctm97/pdfvector",
