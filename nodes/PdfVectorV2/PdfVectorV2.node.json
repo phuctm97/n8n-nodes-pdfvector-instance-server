@@ -1,0 +1,15 @@
+{
+	"node": "n8n-nodes-pdfvector-instance-server.pdfVectorV2",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Productivity"],
+	"subcategories": {},
+	"resources": {
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/phuctm97/pdfvector"
+			}
+		]
+	},
+	"alias": ["pdf", "document", "parse", "extract", "ocr", "ai"]
+}
