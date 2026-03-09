@@ -205,7 +205,8 @@ export class PdfVectorV2 implements INodeType {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
 		const credentials = await this.getCredentials('pdfVectorApi');
-		const baseUrl = (credentials.domain as string).replace(/\/$/, '');
+		const rawDomain = (credentials.domain as string).trim().replace(/\/+$/, '');
+		const baseUrl = rawDomain.startsWith('http') ? rawDomain : `https://${rawDomain}`;
 
 		for (let i = 0; i < items.length; i++) {
 			try {
@@ -276,7 +277,10 @@ export class PdfVectorV2 implements INodeType {
 
 				const response = await this.helpers.httpRequest(options);
 				const statusCode = response.statusCode as number;
-				const responseBody = response.body as IDataObject;
+				const responseBody =
+					typeof response.body === 'string'
+						? ({ message: response.body } as IDataObject)
+						: (response.body as IDataObject);
 
 				if (statusCode >= 400) {
 					const errorMessage =

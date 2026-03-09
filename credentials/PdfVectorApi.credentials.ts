@@ -19,7 +19,7 @@ export class PdfVectorApi implements ICredentialType {
 			type: 'string',
 			default: '',
 			placeholder: 'https://your-instance.pdfvector.com',
-			description: 'The domain of your PDFVector instance server (e.g. https://your-instance.pdfvector.com)',
+			description: 'The base URL of your PDFVector instance (e.g. https://your-instance.pdfvector.com, your-instance.pdfvector.com). Trailing slashes are removed automatically.',
 			required: true,
 		},
 		{
@@ -43,7 +43,7 @@ export class PdfVectorApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: '={{$credentials.domain.replace(/\\/$/, "")}}',
+			baseURL: '={{ (d => d.startsWith("http") ? d : "https://" + d)($credentials.domain.trim().replace(/\\/+$/, "")) }}',
 			url: '/api/authenticate/validateCredential',
 			method: 'POST',
 			headers: {
