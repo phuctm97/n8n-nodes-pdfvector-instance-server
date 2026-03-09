@@ -153,6 +153,16 @@ export class PdfVectorV2 implements INodeType {
 				},
 			},
 
+			// --- Document ID (optional, all operations) ---
+			{
+				displayName: 'Document ID',
+				name: 'documentId',
+				type: 'string',
+				default: '',
+				placeholder: 'e.g. doc_abc123',
+				description: 'Optional unique ID to track your document. When processing fails, you can upload the document with this ID to our support so we can investigate and improve handling for your file.',
+			},
+
 			// --- Model (all operations) ---
 			{
 				displayName: 'Model',
@@ -244,14 +254,22 @@ export class PdfVectorV2 implements INodeType {
 					}
 				}
 
+				const documentId = this.getNodeParameter('documentId', i, '') as string;
+
+				const headers: IDataObject = {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${credentials.apiKey as string}`,
+				};
+
+				if (documentId) {
+					headers['x-pdfvector-document-id'] = documentId;
+				}
+
 				const options: IHttpRequestOptions = {
 					method: 'POST',
 					url: `${baseUrl}/api/document/${operation}`,
 					body,
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${credentials.apiKey as string}`,
-					},
+					headers,
 					ignoreHttpStatusErrors: true,
 					returnFullResponse: true,
 				};
